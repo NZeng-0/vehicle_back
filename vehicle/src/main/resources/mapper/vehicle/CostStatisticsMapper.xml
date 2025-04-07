@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vehicle.mapper.CostStatisticsMapper">
+    
+    <resultMap type="CostStatistics" id="CostStatisticsResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="costDate"    column="cost_date"    />
+        <result property="costType"    column="cost_type"    />
+        <result property="description"    column="description"    />
+        <result property="amount"    column="amount"    />
+    </resultMap>
+
+    <sql id="selectCostStatisticsVo">
+        select id, vehicle_id, cost_date, cost_type, description, amount from t_cost_statistics
+    </sql>
+
+    <select id="selectCostStatisticsList" parameterType="CostStatistics" resultMap="CostStatisticsResult">
+        <include refid="selectCostStatisticsVo"/>
+        <where>  
+            <if test="vehicleId != null "> and vehicle_id = #{vehicleId}</if>
+            <if test="costDate != null "> and cost_date = #{costDate}</if>
+            <if test="costType != null  and costType != ''"> and cost_type = #{costType}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+        </where>
+    </select>
+    
+    <select id="selectCostStatisticsById" parameterType="Long" resultMap="CostStatisticsResult">
+        <include refid="selectCostStatisticsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCostStatistics" parameterType="CostStatistics" useGeneratedKeys="true" keyProperty="id">
+        insert into t_cost_statistics
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id,</if>
+            <if test="costDate != null">cost_date,</if>
+            <if test="costType != null">cost_type,</if>
+            <if test="description != null">description,</if>
+            <if test="amount != null">amount,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="costDate != null">#{costDate},</if>
+            <if test="costType != null">#{costType},</if>
+            <if test="description != null">#{description},</if>
+            <if test="amount != null">#{amount},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCostStatistics" parameterType="CostStatistics">
+        update t_cost_statistics
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id = #{vehicleId},</if>
+            <if test="costDate != null">cost_date = #{costDate},</if>
+            <if test="costType != null">cost_type = #{costType},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="amount != null">amount = #{amount},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCostStatisticsById" parameterType="Long">
+        delete from t_cost_statistics where id = #{id}
+    </delete>
+
+    <delete id="deleteCostStatisticsByIds" parameterType="String">
+        delete from t_cost_statistics where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

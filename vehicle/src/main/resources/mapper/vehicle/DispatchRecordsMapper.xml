@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vehicle.mapper.DispatchRecordsMapper">
+    
+    <resultMap type="DispatchRecords" id="DispatchRecordsResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="useReason"    column="use_reason"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="startLocation"    column="start_location"    />
+        <result property="endLocation"    column="end_location"    />
+        <result property="mileage"    column="mileage"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <sql id="selectDispatchRecordsVo">
+        select id, vehicle_id, user_id, use_reason, start_time, end_time, start_location, end_location, mileage, created_at from t_dispatch_records
+    </sql>
+
+    <select id="selectDispatchRecordsList" parameterType="DispatchRecords" resultMap="DispatchRecordsResult">
+        <include refid="selectDispatchRecordsVo"/>
+        <where>
+            <if test="vehicleId != null "> and vehicle_id = #{vehicleId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="useReason != null  and useReason != ''"> and use_reason = #{useReason}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="startLocation != null  and startLocation != ''"> and start_location = #{startLocation}</if>
+            <if test="endLocation != null  and endLocation != ''"> and end_location = #{endLocation}</if>
+            <if test="mileage != null "> and mileage = #{mileage}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectDispatchRecordsById" parameterType="Long" resultMap="DispatchRecordsResult">
+        <include refid="selectDispatchRecordsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDispatchRecords" parameterType="DispatchRecords" useGeneratedKeys="true" keyProperty="id">
+        insert into t_dispatch_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="useReason != null">use_reason,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="startLocation != null">start_location,</if>
+            <if test="endLocation != null">end_location,</if>
+            <if test="mileage != null">mileage,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="useReason != null">#{useReason},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="startLocation != null">#{startLocation},</if>
+            <if test="endLocation != null">#{endLocation},</if>
+            <if test="mileage != null">#{mileage},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDispatchRecords" parameterType="DispatchRecords">
+        update t_dispatch_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id = #{vehicleId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="useReason != null">use_reason = #{useReason},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="startLocation != null">start_location = #{startLocation},</if>
+            <if test="endLocation != null">end_location = #{endLocation},</if>
+            <if test="mileage != null">mileage = #{mileage},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDispatchRecordsById" parameterType="Long">
+        delete from t_dispatch_records where id = #{id}
+    </delete>
+
+    <delete id="deleteDispatchRecordsByIds" parameterType="String">
+        delete from t_dispatch_records where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

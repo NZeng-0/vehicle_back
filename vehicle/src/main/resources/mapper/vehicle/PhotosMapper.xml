@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vehicle.mapper.PhotosMapper">
+    
+    <resultMap type="Photos" id="PhotosResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="photoPath"    column="photo_path"    />
+        <result property="shootTime"    column="shoot_time"    />
+        <result property="shootType"    column="shoot_type"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdAt"    column="created_at"    />
+    </resultMap>
+
+    <sql id="selectPhotosVo">
+        select id, vehicle_id, user_id, photo_path, shoot_time, shoot_type, remark, created_at from t_photos
+    </sql>
+
+    <select id="selectPhotosList" parameterType="Photos" resultMap="PhotosResult">
+        <include refid="selectPhotosVo"/>
+        <where>  
+            <if test="vehicleId != null "> and vehicle_id = #{vehicleId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="photoPath != null  and photoPath != ''"> and photo_path = #{photoPath}</if>
+            <if test="shootTime != null "> and shoot_time = #{shootTime}</if>
+            <if test="shootType != null  and shootType != ''"> and shoot_type = #{shootType}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectPhotosById" parameterType="Long" resultMap="PhotosResult">
+        <include refid="selectPhotosVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPhotos" parameterType="Photos" useGeneratedKeys="true" keyProperty="id">
+        insert into t_photos
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="photoPath != null">photo_path,</if>
+            <if test="shootTime != null">shoot_time,</if>
+            <if test="shootType != null">shoot_type,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="photoPath != null">#{photoPath},</if>
+            <if test="shootTime != null">#{shootTime},</if>
+            <if test="shootType != null">#{shootType},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePhotos" parameterType="Photos">
+        update t_photos
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id = #{vehicleId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="photoPath != null">photo_path = #{photoPath},</if>
+            <if test="shootTime != null">shoot_time = #{shootTime},</if>
+            <if test="shootType != null">shoot_type = #{shootType},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePhotosById" parameterType="Long">
+        delete from t_photos where id = #{id}
+    </delete>
+
+    <delete id="deletePhotosByIds" parameterType="String">
+        delete from t_photos where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

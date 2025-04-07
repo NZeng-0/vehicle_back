@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vehicle.mapper.LocationsMapper">
+    
+    <resultMap type="Locations" id="LocationsResult">
+        <result property="id"    column="id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="address"    column="address"    />
+        <result property="recordedAt"    column="recorded_at"    />
+        <result property="status"    column="status"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectLocationsVo">
+        select id, vehicle_id, latitude, longitude, address, recorded_at, status, user_id from t_locations
+    </sql>
+
+    <select id="selectLocationsList" parameterType="Locations" resultMap="LocationsResult">
+        <include refid="selectLocationsVo"/>
+        <where>  
+            <if test="vehicleId != null "> and vehicle_id = #{vehicleId}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="recordedAt != null "> and recorded_at = #{recordedAt}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectLocationsById" parameterType="Long" resultMap="LocationsResult">
+        <include refid="selectLocationsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLocations" parameterType="Locations" useGeneratedKeys="true" keyProperty="id">
+        insert into t_locations
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="address != null">address,</if>
+            <if test="recordedAt != null">recorded_at,</if>
+            <if test="status != null">status,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="address != null">#{address},</if>
+            <if test="recordedAt != null">#{recordedAt},</if>
+            <if test="status != null">#{status},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLocations" parameterType="Locations">
+        update t_locations
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vehicleId != null">vehicle_id = #{vehicleId},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="recordedAt != null">recorded_at = #{recordedAt},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLocationsById" parameterType="Long">
+        delete from t_locations where id = #{id}
+    </delete>
+
+    <delete id="deleteLocationsByIds" parameterType="String">
+        delete from t_locations where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

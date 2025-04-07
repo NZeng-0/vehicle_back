@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vehicle.mapper.VehiclesMapper">
+    
+    <resultMap type="Vehicles" id="VehiclesResult">
+        <result property="id"    column="id"    />
+        <result property="plateNumber"    column="plate_number"    />
+        <result property="cover"    column="cover"    />
+        <result property="brand"    column="brand"    />
+        <result property="carType"    column="car_type"    />
+        <result property="color"    column="color"    />
+        <result property="mileage"    column="mileage"    />
+        <result property="purchaseDate"    column="purchase_date"    />
+        <result property="lastMaintenance"    column="last_maintenance"    />
+        <result property="insuranceExpiry"    column="insurance_expiry"    />
+    </resultMap>
+
+    <sql id="selectVehiclesVo">
+        select id, plate_number, cover, brand, car_type, color, mileage, purchase_date, last_maintenance, insurance_expiry from t_vehicles
+    </sql>
+
+    <select id="selectVehiclesList" parameterType="Vehicles" resultMap="VehiclesResult">
+        <include refid="selectVehiclesVo"/>
+        <where>  
+            <if test="plateNumber != null  and plateNumber != ''"> and plate_number = #{plateNumber}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="brand != null  and brand != ''"> and brand = #{brand}</if>
+            <if test="carType != null  and carType != ''"> and car_type = #{carType}</if>
+            <if test="color != null  and color != ''"> and color = #{color}</if>
+            <if test="mileage != null "> and mileage = #{mileage}</if>
+            <if test="purchaseDate != null "> and purchase_date = #{purchaseDate}</if>
+            <if test="lastMaintenance != null "> and last_maintenance = #{lastMaintenance}</if>
+            <if test="insuranceExpiry != null "> and insurance_expiry = #{insuranceExpiry}</if>
+        </where>
+    </select>
+    
+    <select id="selectVehiclesById" parameterType="Long" resultMap="VehiclesResult">
+        <include refid="selectVehiclesVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertVehicles" parameterType="Vehicles" useGeneratedKeys="true" keyProperty="id">
+        insert into t_vehicles
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="plateNumber != null">plate_number,</if>
+            <if test="cover != null">cover,</if>
+            <if test="brand != null">brand,</if>
+            <if test="carType != null">car_type,</if>
+            <if test="color != null">color,</if>
+            <if test="mileage != null">mileage,</if>
+            <if test="purchaseDate != null">purchase_date,</if>
+            <if test="lastMaintenance != null">last_maintenance,</if>
+            <if test="insuranceExpiry != null">insurance_expiry,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="plateNumber != null">#{plateNumber},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="carType != null">#{carType},</if>
+            <if test="color != null">#{color},</if>
+            <if test="mileage != null">#{mileage},</if>
+            <if test="purchaseDate != null">#{purchaseDate},</if>
+            <if test="lastMaintenance != null">#{lastMaintenance},</if>
+            <if test="insuranceExpiry != null">#{insuranceExpiry},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVehicles" parameterType="Vehicles">
+        update t_vehicles
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="plateNumber != null">plate_number = #{plateNumber},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="carType != null">car_type = #{carType},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="mileage != null">mileage = #{mileage},</if>
+            <if test="purchaseDate != null">purchase_date = #{purchaseDate},</if>
+            <if test="lastMaintenance != null">last_maintenance = #{lastMaintenance},</if>
+            <if test="insuranceExpiry != null">insurance_expiry = #{insuranceExpiry},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteVehiclesById" parameterType="Long">
+        delete from t_vehicles where id = #{id}
+    </delete>
+
+    <delete id="deleteVehiclesByIds" parameterType="String">
+        delete from t_vehicles where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

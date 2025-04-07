@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vehicle.mapper.VehicleApplicationsMapper">
+    
+    <resultMap type="VehicleApplications" id="VehicleApplicationsResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="vehicleId"    column="vehicle_id"    />
+        <result property="applyDate"    column="apply_date"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="companions"    column="companions"    />
+        <result property="reason"    column="reason"    />
+        <result property="startLocation"    column="start_location"    />
+        <result property="endLocation"    column="end_location"    />
+        <result property="status"    column="status"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="username"      column="username"/>
+        <result property="plateNumber"   column="plate_number"/>
+    </resultMap>
+
+    <sql id="selectVehicleApplicationsVo">
+        SELECT
+            va.*,
+            u.real_name AS username,
+            v.plate_number AS plate_number
+        FROM t_vehicle_applications va
+        LEFT JOIN t_users u ON va.user_id = u.id
+        LEFT JOIN t_vehicles v ON va.vehicle_id = v.id
+    </sql>
+
+    <select id="selectVehicleApplicationsList" parameterType="VehicleApplications" resultMap="VehicleApplicationsResult">
+        <include refid="selectVehicleApplicationsVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="vehicleId != null "> and vehicle_id = #{vehicleId}</if>
+            <if test="applyDate != null "> and apply_date = #{applyDate}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="companions != null  and companions != ''"> and companions = #{companions}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="startLocation != null  and startLocation != ''"> and start_location = #{startLocation}</if>
+            <if test="endLocation != null  and endLocation != ''"> and end_location = #{endLocation}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+        </where>
+    </select>
+
+    <select id="selectVehicleUseListByCarId" parameterType="Long" resultMap="VehicleApplicationsResult">
+        SELECT va.id, va.user_id, va.vehicle_id, va.apply_date, va.start_time, va.end_time,
+               va.companions, va.reason, va.start_location, va.end_location,
+               va.status, va.created_at,
+               u.real_name AS username,
+               v.plate_number
+        FROM t_vehicle_applications va
+        LEFT JOIN t_users u ON va.user_id = u.id
+        LEFT JOIN t_vehicles v ON va.vehicle_id = v.id
+    </select>
+
+    <select id="selectVehicleUseListByState" parameterType="String" resultMap="VehicleApplicationsResult">
+        SELECT va.id, va.user_id, va.vehicle_id, va.apply_date, va.start_time, va.end_time,
+               va.companions, va.reason, va.start_location, va.end_location,
+               va.status, va.created_at,
+               u.real_name AS username
+        FROM t_vehicle_applications va
+        LEFT JOIN t_users u ON va.user_id = u.id
+        WHERE va.status = #{state}
+       </select>
+
+    <insert id="insertVehicleApplications" parameterType="VehicleApplications" useGeneratedKeys="true" keyProperty="id">
+        insert into t_vehicle_applications
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="vehicleId != null">vehicle_id,</if>
+            <if test="applyDate != null">apply_date,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="companions != null">companions,</if>
+            <if test="reason != null">reason,</if>
+            <if test="startLocation != null">start_location,</if>
+            <if test="endLocation != null">end_location,</if>
+            <if test="status != null">status,</if>
+            <if test="createdAt != null">created_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="vehicleId != null">#{vehicleId},</if>
+            <if test="applyDate != null">#{applyDate},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="companions != null">#{companions},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="startLocation != null">#{startLocation},</if>
+            <if test="endLocation != null">#{endLocation},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVehicleApplications" parameterType="VehicleApplications">
+        update t_vehicle_applications
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="vehicleId != null">vehicle_id = #{vehicleId},</if>
+            <if test="applyDate != null">apply_date = #{applyDate},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="companions != null">companions = #{companions},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="startLocation != null">start_location = #{startLocation},</if>
+            <if test="endLocation != null">end_location = #{endLocation},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteVehicleApplicationsById" parameterType="Long">
+        delete from t_vehicle_applications where id = #{id}
+    </delete>
+
+    <delete id="deleteVehicleApplicationsByIds" parameterType="String">
+        delete from t_vehicle_applications where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
