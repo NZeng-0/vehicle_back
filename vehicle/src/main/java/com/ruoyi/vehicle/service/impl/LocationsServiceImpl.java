@@ -8,10 +8,10 @@ import com.ruoyi.vehicle.domain.Locations;
 import com.ruoyi.vehicle.service.ILocationsService;
 
 /**
- * 实时定位Service业务层处理
+ * 定位Service业务层处理
  * 
  * @author me
- * @date 2025-04-05
+ * @date 2025-04-08
  */
 @Service
 public class LocationsServiceImpl implements ILocationsService 
@@ -20,10 +20,10 @@ public class LocationsServiceImpl implements ILocationsService
     private LocationsMapper locationsMapper;
 
     /**
-     * 查询实时定位
+     * 查询定位
      * 
-     * @param id 实时定位主键
-     * @return 实时定位
+     * @param id 定位主键
+     * @return 定位
      */
     @Override
     public Locations selectLocationsById(Long id)
@@ -31,11 +31,17 @@ public class LocationsServiceImpl implements ILocationsService
         return locationsMapper.selectLocationsById(id);
     }
 
+    @Override
+    public List<Locations> selectLocationsByCarId(Long carId)
+    {
+        return locationsMapper.selectLocationsByCarId(carId);
+    }
+
     /**
-     * 查询实时定位列表
+     * 查询定位列表
      * 
-     * @param locations 实时定位
-     * @return 实时定位
+     * @param locations 定位
+     * @return 定位
      */
     @Override
     public List<Locations> selectLocationsList(Locations locations)
@@ -44,9 +50,9 @@ public class LocationsServiceImpl implements ILocationsService
     }
 
     /**
-     * 新增实时定位
+     * 新增定位
      * 
-     * @param locations 实时定位
+     * @param locations 定位
      * @return 结果
      */
     @Override
@@ -56,9 +62,9 @@ public class LocationsServiceImpl implements ILocationsService
     }
 
     /**
-     * 修改实时定位
+     * 修改定位
      * 
-     * @param locations 实时定位
+     * @param locations 定位
      * @return 结果
      */
     @Override
@@ -68,9 +74,9 @@ public class LocationsServiceImpl implements ILocationsService
     }
 
     /**
-     * 批量删除实时定位
+     * 批量删除定位
      * 
-     * @param ids 需要删除的实时定位主键
+     * @param ids 需要删除的定位主键
      * @return 结果
      */
     @Override
@@ -80,9 +86,9 @@ public class LocationsServiceImpl implements ILocationsService
     }
 
     /**
-     * 删除实时定位信息
+     * 删除定位信息
      * 
-     * @param id 实时定位主键
+     * @param id 定位主键
      * @return 结果
      */
     @Override

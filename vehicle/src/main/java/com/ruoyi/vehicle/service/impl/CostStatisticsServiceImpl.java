@@ -55,6 +55,15 @@ public class CostStatisticsServiceImpl implements ICostStatisticsService
         return costStatisticsMapper.insertCostStatistics(costStatistics);
     }
 
+    @Override
+    public int insertCostStatisticsMore(List<CostStatistics> list)
+    {
+        for(CostStatistics item : list){
+            costStatisticsMapper.insertCostStatistics(item);
+        }
+        return 1;
+    }
+
     /**
      * 修改费用统计
      * 

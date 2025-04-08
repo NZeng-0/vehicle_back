@@ -2,6 +2,12 @@ package com.ruoyi.vehicle.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.vehicle.domain.CarReturnInfo;
+import com.ruoyi.vehicle.domain.DispatchRecords;
+import com.ruoyi.vehicle.domain.Vehicles;
+import com.ruoyi.vehicle.mapper.CostStatisticsMapper;
+import com.ruoyi.vehicle.mapper.DispatchRecordsMapper;
+import com.ruoyi.vehicle.mapper.VehiclesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.vehicle.mapper.VehicleApplicationsMapper;
@@ -19,6 +25,13 @@ public class VehicleApplicationsServiceImpl implements IVehicleApplicationsServi
 {
     @Autowired
     private VehicleApplicationsMapper vehicleApplicationsMapper;
+
+    @Autowired
+    private VehiclesMapper vehiclesMapper;
+
+    @Autowired
+    private CostStatisticsMapper costStatisticsMapper;
+
 
     /**
      * 查询车辆申请
@@ -102,5 +115,12 @@ public class VehicleApplicationsServiceImpl implements IVehicleApplicationsServi
     public List<VehicleApplications> selectVehicleUseListByState(){
         List<VehicleApplications> vehicleAppDtos = vehicleApplicationsMapper.selectVehicleUseListByState("approved");
         return vehicleAppDtos;
+    }
+
+    @Override
+    public int complete(CarReturnInfo info) {
+        int rows = vehiclesMapper.updateMileage(info.getMileage(), info.getId());
+        vehicleApplicationsMapper.updateState("completed", info.getUseId());
+        return 1;
     }
 }

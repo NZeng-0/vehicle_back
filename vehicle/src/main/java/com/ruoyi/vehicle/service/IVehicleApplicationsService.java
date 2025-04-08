@@ -1,6 +1,8 @@
 package com.ruoyi.vehicle.service;
 
 import java.util.List;
+
+import com.ruoyi.vehicle.domain.CarReturnInfo;
 import com.ruoyi.vehicle.domain.VehicleApplications;
 
 /**
@@ -62,4 +64,6 @@ public interface IVehicleApplicationsService
     public List<VehicleApplications> selectVehicleUseListByCarId(Long id);
 
     public List<VehicleApplications> selectVehicleUseListByState();
+
+    int complete(CarReturnInfo info);
 }

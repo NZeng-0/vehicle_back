@@ -37,7 +37,6 @@ public class CostStatisticsController extends BaseController
     /**
      * 查询费用统计列表
      */
-    @PreAuthorize("@ss.hasPermi('vehicle:statistics:list')")
     @GetMapping("/list")
     public TableDataInfo list(CostStatistics costStatistics)
     {
@@ -47,22 +46,8 @@ public class CostStatisticsController extends BaseController
     }
 
     /**
-     * 导出费用统计列表
-     */
-    @PreAuthorize("@ss.hasPermi('vehicle:statistics:export')")
-    @Log(title = "费用统计", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, CostStatistics costStatistics)
-    {
-        List<CostStatistics> list = costStatisticsService.selectCostStatisticsList(costStatistics);
-        ExcelUtil<CostStatistics> util = new ExcelUtil<CostStatistics>(CostStatistics.class);
-        util.exportExcel(response, list, "费用统计数据");
-    }
-
-    /**
      * 获取费用统计详细信息
      */
-    @PreAuthorize("@ss.hasPermi('vehicle:statistics:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -72,19 +57,21 @@ public class CostStatisticsController extends BaseController
     /**
      * 新增费用统计
      */
-    @PreAuthorize("@ss.hasPermi('vehicle:statistics:add')")
-    @Log(title = "费用统计", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CostStatistics costStatistics)
     {
         return toAjax(costStatisticsService.insertCostStatistics(costStatistics));
     }
 
+    @PostMapping("/add-more")
+    public AjaxResult addMore(@RequestBody List<CostStatistics> costStatistics)
+    {
+        return toAjax(costStatisticsService.insertCostStatisticsMore(costStatistics));
+    }
+
     /**
      * 修改费用统计
      */
-    @PreAuthorize("@ss.hasPermi('vehicle:statistics:edit')")
-    @Log(title = "费用统计", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CostStatistics costStatistics)
     {
@@ -94,8 +81,6 @@ public class CostStatisticsController extends BaseController
     /**
      * 删除费用统计
      */
-    @PreAuthorize("@ss.hasPermi('vehicle:statistics:remove')")
-    @Log(title = "费用统计", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {

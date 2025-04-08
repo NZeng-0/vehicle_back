@@ -3,6 +3,8 @@ package com.ruoyi.vehicle.mapper;
 import java.util.List;
 import com.ruoyi.vehicle.domain.VehicleApplications;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * 车辆申请Mapper接口
@@ -63,4 +65,7 @@ public interface VehicleApplicationsMapper
 
     public List<VehicleApplications> selectVehicleUseListByCarId(Long carId);
     public List<VehicleApplications> selectVehicleUseListByState(String state);
+
+    @Update("update t_vehicle_applications set status = #{state} where id = #{id}")
+    public int updateState(@Param("state") String state, @Param("id") Long id);
 }

@@ -2,6 +2,7 @@ package com.ruoyi.vehicle.mapper;
 
 import java.util.List;
 import com.ruoyi.vehicle.domain.DispatchRecords;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 派车记录Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.vehicle.domain.DispatchRecords;
  * @author me
  * @date 2025-04-05
  */
+@Mapper
 public interface DispatchRecordsMapper 
 {
     /**

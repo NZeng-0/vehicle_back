@@ -29,6 +29,8 @@ public interface ICostStatisticsService
      */
     public int insertCostStatistics(CostStatistics costStatistics);
 
+    public int insertCostStatisticsMore(List<CostStatistics> costStatistics);
+
     /**
      * 修改费用
      * 

@@ -2,6 +2,7 @@ package com.ruoyi.vehicle.mapper;
 
 import java.util.List;
 import com.ruoyi.vehicle.domain.CostStatistics;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 费用统计Mapper接口
@@ -9,6 +10,7 @@ import com.ruoyi.vehicle.domain.CostStatistics;
  * @author me
  * @date 2025-04-05
  */
+@Mapper
 public interface CostStatisticsMapper 
 {
     /**

@@ -48,10 +48,6 @@ public class DispatchRecords extends BaseEntity
     @Excel(name = "目的地点")
     private String endLocation;
 
-    /** 本次行程里程数，单位：公里 */
-    @Excel(name = "本次行程里程数，单位：公里")
-    private Long mileage;
-
     /** 记录创建时间，默认为当前时间戳 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "记录创建时间，默认为当前时间戳", width = 30, dateFormat = "yyyy-MM-dd")
@@ -137,16 +133,6 @@ public class DispatchRecords extends BaseEntity
         return endLocation;
     }
 
-    public void setMileage(Long mileage) 
-    {
-        this.mileage = mileage;
-    }
-
-    public Long getMileage() 
-    {
-        return mileage;
-    }
-
     public void setCreatedAt(Date createdAt) 
     {
         this.createdAt = createdAt;
@@ -168,7 +154,6 @@ public class DispatchRecords extends BaseEntity
             .append("endTime", getEndTime())
             .append("startLocation", getStartLocation())
             .append("endLocation", getEndLocation())
-            .append("mileage", getMileage())
             .append("createdAt", getCreatedAt())
             .toString();
     }

@@ -2,6 +2,9 @@ package com.ruoyi.vehicle.mapper;
 
 import java.util.List;
 import com.ruoyi.vehicle.domain.Vehicles;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * 车辆信息Mapper接口
@@ -9,6 +12,7 @@ import com.ruoyi.vehicle.domain.Vehicles;
  * @author me
  * @date 2025-04-05
  */
+@Mapper
 public interface VehiclesMapper 
 {
     /**
@@ -58,4 +62,7 @@ public interface VehiclesMapper
      * @return 结果
      */
     public int deleteVehiclesByIds(Long[] ids);
+
+    @Update("UPDATE t_vehicles SET mileage = mileage + #{data} WHERE id = #{id}")
+    int updateMileage(@Param("data") Double data, @Param("id") Long id);
 }

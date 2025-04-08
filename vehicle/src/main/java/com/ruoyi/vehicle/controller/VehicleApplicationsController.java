@@ -2,6 +2,7 @@ package com.ruoyi.vehicle.controller;
 
 import java.util.List;
 
+import com.ruoyi.vehicle.domain.CarReturnInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,5 +90,10 @@ public class VehicleApplicationsController extends BaseController
         startPage();
         List<VehicleApplications> list = vehicleApplicationsService.selectVehicleUseListByCarId(id);
         return getDataTable(list);
+    }
+
+    @PostMapping("/mileage")
+    public AjaxResult complete(@RequestBody CarReturnInfo info){
+        return toAjax(vehicleApplicationsService.complete(info));
     }
 }
