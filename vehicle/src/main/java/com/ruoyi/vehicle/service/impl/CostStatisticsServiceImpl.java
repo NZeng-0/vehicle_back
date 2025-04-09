@@ -99,4 +99,10 @@ public class CostStatisticsServiceImpl implements ICostStatisticsService
     {
         return costStatisticsMapper.deleteCostStatisticsById(id);
     }
+
+    @Override
+    public List<CostStatistics> selectListByCarId(Long carId){
+        List<CostStatistics> costStatistics = costStatisticsMapper.selectListByCarId(carId);
+        return costStatistics;
+    }
 }

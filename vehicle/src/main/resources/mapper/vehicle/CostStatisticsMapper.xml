@@ -73,4 +73,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectListByCarId" parameterType="Long" resultMap="CostStatisticsResult">
+        <include refid="selectCostStatisticsVo"/>
+        where vehicle_id = #{carId}
+    </select>
 </mapper>

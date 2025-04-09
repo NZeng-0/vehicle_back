@@ -54,4 +54,6 @@ public interface ICostStatisticsService
      * @return 结果
      */
     public int deleteCostStatisticsById(Long id);
+
+    List<CostStatistics> selectListByCarId(Long carId);
 }

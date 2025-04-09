@@ -86,4 +86,12 @@ public class CostStatisticsController extends BaseController
     {
         return toAjax(costStatisticsService.deleteCostStatisticsByIds(ids));
     }
+
+    @GetMapping("/list/{carId}")
+    public TableDataInfo getListByCarId(@PathVariable Long carId)
+    {
+        startPage();
+        List<CostStatistics> list = costStatisticsService.selectListByCarId(carId);
+        return getDataTable(list);
+    }
 }

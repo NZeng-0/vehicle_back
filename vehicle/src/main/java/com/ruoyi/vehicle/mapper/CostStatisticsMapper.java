@@ -3,6 +3,8 @@ package com.ruoyi.vehicle.mapper;
 import java.util.List;
 import com.ruoyi.vehicle.domain.CostStatistics;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * 费用统计Mapper接口
@@ -60,4 +62,6 @@ public interface CostStatisticsMapper
      * @return 结果
      */
     public int deleteCostStatisticsByIds(Long[] ids);
+
+    List<CostStatistics> selectListByCarId(@Param("carId") Long id);
 }
