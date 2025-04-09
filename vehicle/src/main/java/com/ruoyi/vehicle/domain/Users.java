@@ -17,28 +17,28 @@ public class Users extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 用户ID，自动递增的主键 */
-    private Long id;
+        /** 用户ID，自动递增的主键 */
+        private Long id;
 
-    /** 用户名，唯一标识符 */
-    @Excel(name = "用户名，唯一标识符")
-    private String username;
+        /** 用户名，唯一标识符 */
+        @Excel(name = "用户名，唯一标识符")
+        private String username;
 
-    /** 用户密码，存储加密后的密码 */
-    @Excel(name = "用户密码，存储加密后的密码")
-    private String password;
+        /** 用户密码，存储加密后的密码 */
+        @Excel(name = "用户密码，存储加密后的密码")
+        private String password;
 
-    /** 用户真实姓名 */
-    @Excel(name = "用户真实姓名")
-    private String realName;
+        /** 用户真实姓名 */
+        @Excel(name = "用户真实姓名")
+        private String realName;
 
-    /** 用户电话号码 */
-    @Excel(name = "用户电话号码")
-    private String phone;
+        /** 用户电话号码 */
+        @Excel(name = "用户电话号码")
+        private String phone;
 
-    /** 用户角色：普通用户或管理员 */
-    @Excel(name = "用户角色：普通用户或管理员")
-    private String role;
+        /** 用户角色：普通用户或管理员 */
+        @Excel(name = "用户角色：普通用户或管理员")
+        private String role;
 
     /** 用户状态：待审核、已批准或已拒绝 */
     @Excel(name = "用户状态：待审核、已批准或已拒绝")

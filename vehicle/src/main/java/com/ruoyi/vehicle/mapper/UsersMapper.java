@@ -2,9 +2,7 @@ package com.ruoyi.vehicle.mapper;
 
 import java.util.List;
 import com.ruoyi.vehicle.domain.Users;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.security.core.parameters.P;
 
 /**
@@ -65,7 +63,16 @@ public interface UsersMapper
     public int deleteUsersByIds(Long[] ids);
 
     @Select("select * from t_users where username = #{username}")
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "username", column = "username"),
+            @Result(property = "password", column = "password"),
+            @Result(property = "realName", column = "real_name"),
+            @Result(property = "phone", column = "phone"),
+            @Result(property = "role", column = "role")
+    })
     Users selectUserByUserName(@Param("username") String username);
+
 
     @Select("SELECT COUNT(*) FROM t_users WHERE phone = #{phone}")
     int checkPhoneExists(@Param("phone") String phone);

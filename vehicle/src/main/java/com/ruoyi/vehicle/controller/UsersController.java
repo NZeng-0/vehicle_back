@@ -56,6 +56,7 @@ public class UsersController extends BaseController
     public AjaxResult getUserInfo(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         Users user = usersService.getUserByName(token);
+        user.setPassword(null);
         return success(user);
     }
 
@@ -96,12 +97,18 @@ public class UsersController extends BaseController
         return AjaxResult.success("操作成功", token);
     }
 
+    @PostMapping("/checkPassword")
+    public AjaxResult checkPassword(@RequestBody Users user) {
+        return toAjax(usersService.checkPassword(user));
+    }
+
     /**
      * 登出
      */
     @GetMapping("/logout")
-    public AjaxResult logout() {
-        String res = usersService.logout();
+    public AjaxResult logout(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String res = usersService.logout(token);
         return AjaxResult.success(res);
     }
 }

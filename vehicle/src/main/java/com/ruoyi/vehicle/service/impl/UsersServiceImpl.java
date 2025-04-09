@@ -144,15 +144,24 @@ public class UsersServiceImpl implements IUsersService {
 
     // 登出
     @Override
-    public String logout() {
+    public String logout(String token) {
+        String username = TokenUtils.getUsernameFromToken(token, secret);
         // 记录登出日志
-        AsyncManager.me().execute(AsyncFactory.recordLogininfor(SecurityUtils.getUsername(), Constants.LOGOUT, "退出成功"));
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGOUT, "退出成功"));
         return "登出成功";
     }
 
     @Override
     public Users getUserByName(String token) {
         String username = TokenUtils.getUsernameFromToken(token, secret);
-        return usersMapper.selectUserByUserName(username);
+        Users users = usersMapper.selectUserByUserName(username);
+        return users;
+    }
+
+    @Override
+    public boolean checkPassword(Users item){
+        Users user = usersMapper.selectUsersById(item.getId());
+        // 校验密码
+        return SecurityUtils.matchesPassword(item.getPassword(), user.getPassword());
     }
 }

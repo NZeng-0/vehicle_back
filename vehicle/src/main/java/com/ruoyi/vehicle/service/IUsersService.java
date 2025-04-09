@@ -61,6 +61,7 @@ public interface IUsersService
     public int deleteUsersById(Long id);
 
     String login(String username, String password);
-    String logout();
+    String logout(String token);
     Users getUserByName(String token);
+    boolean checkPassword(Users user);
 }
