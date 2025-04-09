@@ -54,7 +54,7 @@ public class LocationsController extends BaseController
         return success(locationsService.selectLocationsById(id));
     }
 
-    @GetMapping(value = "/ {id}")
+    @GetMapping(value = "/car/{id}")
     public AjaxResult getInfoByCarId(@PathVariable("id") Long id)
     {
         return success(locationsService.selectLocationsByCarId(id));

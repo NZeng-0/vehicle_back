@@ -29,11 +29,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectLocationsById" parameterType="Long" resultMap="LocationsResult">
         <include refid="selectLocationsVo"/>
         where id = #{id}
+        order by recorded_at desc
     </select>
 
     <select id="selectLocationsByCarId" parameterType="Long" resultMap="LocationsResult">
         <include refid="selectLocationsVo"/>
-        where id = #{id}
+        where vehicle_id = #{id}
+        order by recorded_at desc
     </select>
 
     <insert id="insertLocations" parameterType="Locations" useGeneratedKeys="true" keyProperty="id">

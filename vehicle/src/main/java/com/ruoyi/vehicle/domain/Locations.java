@@ -29,8 +29,7 @@ public class Locations extends BaseEntity
     private String address;
 
     /** 记录时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "记录时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date recordedAt;
 
     /** 当前使用者ID，关联users表 */
