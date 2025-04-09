@@ -66,4 +66,5 @@ public interface IVehicleApplicationsService
     public List<VehicleApplications> selectVehicleUseListByState();
 
     int complete(CarReturnInfo info);
+    int getCount(Long id);
 }

@@ -123,4 +123,9 @@ public class VehicleApplicationsServiceImpl implements IVehicleApplicationsServi
         vehicleApplicationsMapper.updateState("completed", info.getUseId());
         return 1;
     }
+
+    @Override
+    public int getCount(Long id) {
+        return vehicleApplicationsMapper.getCount(id);
+    }
 }

@@ -48,26 +48,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <select id="selectVehicleUseListByCarId" parameterType="Long" resultMap="VehicleApplicationsResult">
-        SELECT va.id, va.user_id, va.vehicle_id, va.apply_date, va.start_time, va.end_time,
-               va.companions, va.reason, va.start_location, va.end_location,
-               va.status, va.created_at,
-               u.real_name AS username,
-               v.plate_number
-        FROM t_vehicle_applications va
-        LEFT JOIN t_users u ON va.user_id = u.id
-        LEFT JOIN t_vehicles v ON va.vehicle_id = v.id
+    <select id="selectVehicleApplicationsById" parameterType="Long" resultMap="VehicleApplicationsResult">
+        <include refid="selectVehicleApplicationsVo"/>
+        WHERE va.id = #{id}
     </select>
-
-    <select id="selectVehicleUseListByState" parameterType="String" resultMap="VehicleApplicationsResult">
-        SELECT va.id, va.user_id, va.vehicle_id, va.apply_date, va.start_time, va.end_time,
-               va.companions, va.reason, va.start_location, va.end_location,
-               va.status, va.created_at,
-               u.real_name AS username
-        FROM t_vehicle_applications va
-        LEFT JOIN t_users u ON va.user_id = u.id
-        WHERE va.status = #{state}
-       </select>
 
     <insert id="insertVehicleApplications" parameterType="VehicleApplications" useGeneratedKeys="true" keyProperty="id">
         insert into t_vehicle_applications
@@ -127,4 +111,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectVehicleUseListByCarId" parameterType="Long" resultMap="VehicleApplicationsResult">
+        SELECT va.id, va.user_id, va.vehicle_id, va.apply_date, va.start_time, va.end_time,
+               va.companions, va.reason, va.start_location, va.end_location,
+               va.status, va.created_at,
+               u.real_name AS username,
+               v.plate_number
+        FROM t_vehicle_applications va
+                 LEFT JOIN t_users u ON va.user_id = u.id
+                 LEFT JOIN t_vehicles v ON va.vehicle_id = v.id
+        where vehicle_id = #{id}
+    </select>
+
+    <select id="selectVehicleUseListByState" parameterType="String" resultMap="VehicleApplicationsResult">
+        SELECT va.id, va.user_id, va.vehicle_id, va.apply_date, va.start_time, va.end_time,
+               va.companions, va.reason, va.start_location, va.end_location,
+               va.status, va.created_at,
+               u.real_name AS username
+        FROM t_vehicle_applications va
+                 LEFT JOIN t_users u ON va.user_id = u.id
+        WHERE va.status = #{state}
+    </select>
 </mapper>

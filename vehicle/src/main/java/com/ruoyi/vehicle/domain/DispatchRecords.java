@@ -23,10 +23,13 @@ public class DispatchRecords extends BaseEntity
     /** 派出车辆ID，关联vehicles表 */
     @Excel(name = "派出车辆ID，关联vehicles表")
     private Long vehicleId;
+    private String vehicle;
 
     /** 用车人ID，关联users表 */
     @Excel(name = "用车人ID，关联users表")
     private Long userId;
+
+    private String username;
 
     /** 用车原因 */
     @Excel(name = "用车原因")
@@ -53,7 +56,23 @@ public class DispatchRecords extends BaseEntity
     @Excel(name = "记录创建时间，默认为当前时间戳", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdAt;
 
-    public void setId(Long id) 
+    public String getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(String vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }

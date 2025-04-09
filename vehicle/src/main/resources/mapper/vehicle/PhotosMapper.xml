@@ -13,11 +13,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="shootType"    column="shoot_type"    />
         <result property="remark"    column="remark"    />
         <result property="createdAt"    column="created_at"    />
+
+        <result property="username" column="username"/>
+        <result property="plateNumber" column="plateNumber"/>
     </resultMap>
 
     <sql id="selectPhotosVo">
-        select id, vehicle_id, user_id, photo_path, shoot_time, shoot_type, remark, created_at from t_photos
+        SELECT
+            p.id,
+            p.vehicle_id,
+            p.user_id,
+            p.photo_path,
+            p.shoot_time,
+            p.shoot_type,
+            p.remark,
+            p.created_at,
+            u.real_name AS username,
+            v.plate_number AS plateNumber
+        FROM t_photos p
+                 LEFT JOIN t_users u ON p.user_id = u.id
+                 LEFT JOIN t_vehicles v ON p.vehicle_id = v.id
     </sql>
+
 
     <select id="selectPhotosList" parameterType="Photos" resultMap="PhotosResult">
         <include refid="selectPhotosVo"/>

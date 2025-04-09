@@ -96,4 +96,10 @@ public class VehicleApplicationsController extends BaseController
     public AjaxResult complete(@RequestBody CarReturnInfo info){
         return toAjax(vehicleApplicationsService.complete(info));
     }
+
+    @GetMapping("/getCount/{id}")
+    public AjaxResult getCount(@PathVariable Long id) {
+        int count = vehicleApplicationsService.getCount(id);
+        return success(count);
+    }
 }

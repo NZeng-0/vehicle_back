@@ -14,11 +14,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="startLocation"    column="start_location"    />
         <result property="endLocation"    column="end_location"    />
         <result property="createdAt"    column="created_at"    />
+        <result property="username" column="username" />
+        <result property="vehicle" column="vehicle" />
     </resultMap>
 
     <sql id="selectDispatchRecordsVo">
-        select id, vehicle_id, user_id, use_reason, start_time, end_time, start_location, end_location, created_at from t_dispatch_records
+        SELECT
+            dr.id,
+            dr.vehicle_id,
+            dr.user_id,
+            dr.use_reason,
+            dr.start_time,
+            dr.end_time,
+            dr.start_location,
+            dr.end_location,
+            dr.created_at,
+            u.real_name AS username,
+            v.plate_number AS vehicle
+        FROM t_dispatch_records dr
+                 LEFT JOIN t_users u ON dr.user_id = u.id
+                 LEFT JOIN t_vehicles v ON dr.vehicle_id = v.id
     </sql>
+
+
 
     <select id="selectDispatchRecordsList" parameterType="DispatchRecords" resultMap="DispatchRecordsResult">
         <include refid="selectDispatchRecordsVo"/>

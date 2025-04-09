@@ -23,10 +23,12 @@ public class Photos extends BaseEntity
     /** 相关车辆ID，关联vehicles表 */
     @Excel(name = "相关车辆ID，关联vehicles表")
     private Long vehicleId;
+    private String plateNumber;
 
     /** 拍摄用户ID，关联users表 */
     @Excel(name = "拍摄用户ID，关联users表")
     private Long userId;
+    private String username;
 
     /** 照片存储路径 */
     @Excel(name = "照片存储路径")
@@ -46,7 +48,23 @@ public class Photos extends BaseEntity
     @Excel(name = "记录创建时间，默认为当前时间戳", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdAt;
 
-    public void setId(Long id) 
+    public String getVehicle() {
+        return plateNumber;
+    }
+
+    public void setVehicle(String vehicle) {
+        this.plateNumber = vehicle;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
